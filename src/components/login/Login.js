@@ -46,7 +46,7 @@ const Login = () => {
         alert("❌ " + errors[0].message);
       } else {
         alert("✅ Login successful!");
-        localStorage.setItem("user", JSON.stringify(data.login));
+        sessionStorage.setItem('user',1);
         navigate('/');
       }
 
