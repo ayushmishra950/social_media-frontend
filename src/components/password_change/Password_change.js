@@ -77,31 +77,6 @@ const handleSubmit = async (e) => {
 };
 
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     const { email, oldPassword, newPassword } = formData;
-
-//     if (!email || !oldPassword || !newPassword) {
-//       setError('All fields are required.');
-//       return;
-//     }
-
-//     if (!email.includes('@')) {
-//       setError('Please enter a valid email.');
-//       return;
-//     }
-
-//     if (newPassword.length < 6) {
-//       setError('New password must be at least 6 characters.');
-//       return;
-//     }
-
-//     // ✅ Simulate success
-//     setSuccess('Password updated successfully!');
-//     setFormData({ email: '', oldPassword: '', newPassword: '' });
-//   };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
       <form

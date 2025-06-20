@@ -4,57 +4,57 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const query = `
-    mutation Login($email: String!, $password: String!) {
-      login(email: $email, password: $password) {
-        id
-        name
-        email
-        token
+    const query = `
+      mutation Login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+          id
+          name
+          email
+          token
+        }
       }
-    }
-  `;
+    `;
 
-  const variables = {
-    email: formData.email,
-    password: formData.password,
+    const variables = {
+      email: formData.email,
+      password: formData.password,
+    };
+
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/graphql',
+        { query, variables },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const { data, errors } = response.data;
+
+      if (errors && errors.length > 0) {
+        alert("❌ " + errors[0].message);
+      } else {
+        alert("✅ Login successful!");
+        localStorage.setItem("user", JSON.stringify(data.login));
+        navigate('/');
+      }
+
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("❌ Server Error: " + error.message);
+    }
   };
-
-  try {
-    const response = await axios.post(
-      'http://localhost:5000/graphql',
-      { query, variables },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const { data, errors } = response.data;
-
-    if (errors && errors.length > 0) {
-      alert("❌ " + errors[0].message);
-    } else {
-      alert("✅ Login successful!");
-      localStorage.setItem("user", JSON.stringify(data.login));
-      navigate('/')
-    }
-
-  } catch (error) {
-    console.error("Login failed:", error);
-    alert("❌ Server Error: " + error.message);
-  }
-};
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -93,6 +93,16 @@ const Login = () => {
             placeholder="Enter your password"
           />
         </div>
+        <p className="text-sm text-right text-gray-600 mt-2 mb-4">
+  <button
+    type="button"
+    onClick={() => navigate('/change')}
+    className="text-blue-500 hover:underline cursor-pointer"
+  >
+    Forgot Password?
+  </button>
+</p>
+
 
         <button
           type="submit"
@@ -101,9 +111,17 @@ const Login = () => {
           Login
         </button>
 
-        <p className="text-sm text-center text-gray-600 mt-4">
-          Don't have an account? <a href="/" className="text-blue-500 hover:underline">Sign up</a>
-        </p>
+       <p className="text-sm text-center text-gray-600 mt-4">
+  Don't have an account?{' '}
+  <a
+    className="text-blue-500 hover:underline cursor-pointer"
+    onClick={() => navigate('/register')}
+  >
+    create account
+  </a>
+</p>
+
+
       </form>
     </div>
   );
