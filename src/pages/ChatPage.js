@@ -5,11 +5,11 @@ import FooterNav from '../components/footer/FooterNav';
 import { useNavigate } from 'react-router-dom';
 
 const ChatPage = () => {
-  const token = JSON.parse(localStorage.getItem('user'));
+  const token = sessionStorage.getItem('user');
   const navigate = useNavigate();
 
  useEffect(() => {
-  if (!token || !token.token) {
+  if (!token ||token.token == 1) {
     navigate('/login');
   }
 }, [navigate]);
