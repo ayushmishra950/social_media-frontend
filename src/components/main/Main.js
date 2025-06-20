@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
   const storyBarRef = useRef(null);
-   const token = JSON.parse(localStorage.getItem('user'));
+     const token = sessionStorage.getItem('user');
   const navigate = useNavigate();
 
   const scrollStories = (direction) => {
@@ -19,7 +19,7 @@ const Main = () => {
   };
 
   useEffect(() => {
-    if (!token || !token.token) {
+    if (!token ||token.token == 1 ) {
       navigate('/login');
     }
   }, [navigate]);
